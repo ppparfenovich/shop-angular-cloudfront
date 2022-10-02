@@ -1,3 +1,11 @@
+## Manual CloudFront deployment link
+
+https://d1e2d72oirp1ss.cloudfront.net
+
+## Serverless deployment link
+
+https://d3rztq6ytuc7be.cloudfront.net/
+
 # Shop Angular Cloudfront
 
 Angular version: ~12.
