@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Product } from './product.interface';
+import { IProductsResponse, Product } from './product.interface';
 
 import { ApiService } from '../core/api.service';
 
@@ -36,35 +36,19 @@ export class ProductsService extends ApiService {
   }
 
   getProductById(id: string): Observable<Product | null> {
-    if (!this.endpointEnabled('bff')) {
-      console.warn(
-        'Endpoint "bff" is disabled. To enable change your environment.ts config'
-      );
-      return this.http
-        .get<Product[]>('/assets/products.json')
-        .pipe(
-          map(
-            (products) => products.find((product) => product.id === id) || null
-          )
-        );
-    }
+    const url = this.getUrl('product', `products/${id}`);
 
-    const url = this.getUrl('bff', `products/${id}`);
     return this.http
-      .get<{ product: Product }>(url)
-      .pipe(map((resp) => resp.product));
+      .get<IProductsResponse>(url)
+      .pipe(map((result) => result.items[0]));
   }
 
   getProducts(): Observable<Product[]> {
-    if (!this.endpointEnabled('bff')) {
-      console.warn(
-        'Endpoint "bff" is disabled. To enable change your environment.ts config'
-      );
-      return this.http.get<Product[]>('/assets/products.json');
-    }
+    const url = this.getUrl('product', 'products');
 
-    const url = this.getUrl('bff', 'products');
-    return this.http.get<Product[]>(url);
+    return this.http
+      .get<IProductsResponse>(url)
+      .pipe(map((result) => result.items));
   }
 
   getProductsForCheckout(ids: string[]): Observable<Product[]> {

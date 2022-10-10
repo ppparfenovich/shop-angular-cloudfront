@@ -1,3 +1,7 @@
+export interface IProductsResponse {
+  items: Product[];
+}
+
 export interface Product {
   /** Available count */
   count: number;
