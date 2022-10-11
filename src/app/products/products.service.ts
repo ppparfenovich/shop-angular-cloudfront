@@ -36,6 +36,13 @@ export class ProductsService extends ApiService {
   }
 
   getProductById(id: string): Observable<Product | null> {
+    if (!this.endpointEnabled('product')) {
+      console.warn(
+        'Endpoint "product" is disabled. To enable change your environment.ts config'
+      );
+      return EMPTY;
+    }
+
     const url = this.getUrl('product', `products/${id}`);
 
     return this.http
@@ -44,6 +51,13 @@ export class ProductsService extends ApiService {
   }
 
   getProducts(): Observable<Product[]> {
+    if (!this.endpointEnabled('product')) {
+      console.warn(
+        'Endpoint "product" is disabled. To enable change your environment.ts config'
+      );
+      return EMPTY;
+    }
+
     const url = this.getUrl('product', 'products');
 
     return this.http
